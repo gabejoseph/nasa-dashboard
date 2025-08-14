@@ -26,10 +26,19 @@ export const setRoutes = (app: FastifyInstance) => {
       console.log(`Fetching NEO data for ${cacheKey} from NASA API...`);
       const rawData = await fetchNearEarthObjects(start_date, end_date);
 
-      // Flatten the near_earth_objects by date into a single array
-      const neoArray = Object.values(rawData.near_earth_objects).flat();
+      // Flatten and transform the near_earth_objects by date
+      const neoArray = Object.values(rawData.near_earth_objects)
+        .flat()
+        .map((neo: any) => ({
+          id: neo.id,
+          name: neo.name,
+          size: (neo.estimated_diameter.meters.estimated_diameter_min +
+                 neo.estimated_diameter.meters.estimated_diameter_max) / 2,
+          closeness: parseFloat(neo.close_approach_data[0].miss_distance.kilometers),
+          velocity: parseFloat(neo.close_approach_data[0].relative_velocity.kilometers_per_hour),
+        }));
 
-      // Save in cache for 1 minute
+      // Cache for 1 minute
       cache[cacheKey] = { data: neoArray, expires: Date.now() + 60_000 };
       console.log(`Caching NEO data for ${cacheKey}`);
 
