@@ -24,8 +24,7 @@ const App: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        // For now, use same date for start & end
-        const data = await fetchNeoData();
+        const data = await fetchNeoData(date); // pass the selected date
         console.log("Fetched data:", data);
         setNeoObjects(data);
       } catch (err) {
