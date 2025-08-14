@@ -1,0 +1,36 @@
+{
+  "name": "nasa-dashboard-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2",
+    "eslint": "^7.14.0",
+    "eslint-plugin-react": "^7.27.0",
+    "prettier": "^2.2.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "plugin:react/recommended"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
+  }
+}

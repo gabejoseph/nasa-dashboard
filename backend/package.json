@@ -1,0 +1,27 @@
+{
+  "name": "nasa-dashboard-backend",
+  "version": "1.0.0",
+  "description": "Backend for NASA Dashboard application using Fastify and TypeScript.",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "dev": "ts-node-dev src/index.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "fastify": "^3.21.0",
+    "fastify-plugin": "^3.0.0",
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "eslint": "^7.32.0",
+    "prettier": "^2.4.1",
+    "@types/node": "^16.11.7"
+  },
+  "license": "MIT"
+}

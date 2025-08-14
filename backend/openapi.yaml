@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: NASA Near Earth Objects API
+  description: API for fetching information about Near Earth Objects from NASA.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /neo:
+    get:
+      summary: Get Near Earth Objects
+      description: Fetch a list of Near Earth Objects for a specified date range.
+      parameters:
+        - name: start_date
+          in: query
+          required: true
+          description: The start date for fetching NEOs (format: YYYY-MM-DD).
+          schema:
+            type: string
+            example: "2023-10-01"
+        - name: end_date
+          in: query
+          required: true
+          description: The end date for fetching NEOs (format: YYYY-MM-DD).
+          schema:
+            type: string
+            example: "2023-10-01"
+      responses:
+        '200':
+          description: A list of Near Earth Objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  near_earth_objects:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the NEO.
+                        size:
+                          type: object
+                          properties:
+                            estimated_diameter:
+                              type: object
+                              properties:
+                                meters:
+                                  type: object
+                                  properties:
+                                    estimated_diameter_min:
+                                      type: number
+                                      format: float
+                                      description: Minimum estimated diameter in meters.
+                                    estimated_diameter_max:
+                                      type: number
+                                      format: float
+                                      description: Maximum estimated diameter in meters.
+                        close_approach_data:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              miss_distance:
+                                type: object
+                                properties:
+                                  astronomical:
+                                    type: number
+                                    format: float
+                                    description: Distance in astronomical units.
+                              relative_velocity:
+                                type: object
+                                properties:
+                                  kilometers_per_hour:
+                                    type: number
+                                    format: float
+                                    description: Relative velocity in kilometers per hour.
+        '400':
+          description: Bad request, invalid parameters.
+        '500':
+          description: Internal server error.
