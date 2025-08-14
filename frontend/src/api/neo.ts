@@ -1,14 +1,13 @@
 import axios from 'axios';
 
-const API_KEY = 'DEMO_KEY'; // Replace with your actual API key
-const BASE_URL = 'https://api.nasa.gov/neo/rest/v1/feed';
+const BASE_URL = 'http://localhost:3001/api/neo';
 
-export const fetchNeoData = async (startDate: string, endDate: string) => {
-    try {
-        const response = await axios.get(`${BASE_URL}?start_date=${startDate}&end_date=${endDate}&api_key=${API_KEY}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching NEO data:', error);
-        throw error;
-    }
+export const fetchNeoData = async () => {
+  try {
+    const response = await axios.get(BASE_URL);
+    return response.data; // This will already be your NEO array
+  } catch (error) {
+    console.error('Error fetching NEO data:', error);
+    throw error;
+  }
 };

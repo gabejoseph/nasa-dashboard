@@ -12,10 +12,3 @@ export const DatePicker: React.FC<DatePickerProps> = ({ selectedDate, onDateChan
     onChange={e => onDateChange(e.target.value)}
   />
 );
-
-type NeoTableProps = {
-  neoObjects: any[];
-  onSort?: (key: string) => void;
-};
-
-<NeoTable neoObjects={neoObjects} onSort={handleSort} />

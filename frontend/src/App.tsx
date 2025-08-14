@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import DatePicker from './components/DatePicker';
+import { DatePicker } from './components/DatePicker';
 import NeoTable from './components/NeoTable';
 import { fetchNeoData } from './api/neo';
 
@@ -9,12 +9,24 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const handleSort = (key: string) => {
+    setNeoObjects(prev =>
+      [...prev].sort((a, b) => {
+        if (a[key] < b[key]) return -1;
+        if (a[key] > b[key]) return 1;
+        return 0;
+      })
+    );
+  };
+
   useEffect(() => {
     const getNeoData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchNeoData(date);
+        // For now, use same date for start & end
+        const data = await fetchNeoData();
+        console.log("Fetched data:", data);
         setNeoObjects(data);
       } catch (err) {
         setError('Failed to fetch data');
@@ -32,7 +44,7 @@ const App: React.FC = () => {
       <DatePicker selectedDate={date} onDateChange={setDate} />
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      <NeoTable neoObjects={neoObjects} />
+      <NeoTable neoObjects={neoObjects} onSort={handleSort} />
     </div>
   );
 };
