@@ -52,6 +52,22 @@ The frontend is built using React and TypeScript. Users can select a date and vi
 - Logs requests and cache usage in the backend.
 - Full TypeScript typing for safety.
 
+## Notes:
+
+Returns transformed NEO data with size, closeness, and velocity.
+
+Invalid or missing dates return 400 Bad Request.
+
+Caching reduces repeated API calls for the same date.
+
+Frontend updates table whenever the selected date changes.
+
+Sorting is done client-side.
+
+Backend handles caching, data transformation, and logging.
+
+NASA API key is set to DEMO_KEY for testing but can be replaced with a private key.
+
 <details>
 <summary>Setup Instructions</summary>
 
@@ -111,21 +127,5 @@ json
   }
 ]
 
-## Notes:
-
-Returns transformed NEO data with size, closeness, and velocity.
-
-Invalid or missing dates return 400 Bad Request.
-
-Caching reduces repeated API calls for the same date.
-
-Frontend updates table whenever the selected date changes.
-
-Sorting is done client-side.
-
-Backend handles caching, data transformation, and logging.
-
-NASA API key is set to DEMO_KEY for testing but can be replaced with a private key.
-
-License
-MIT License
+### License
+#### MIT License
