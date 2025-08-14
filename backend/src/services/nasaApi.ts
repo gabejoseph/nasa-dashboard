@@ -1,15 +1,15 @@
 import axios from 'axios';
-import { NEOResponse } from '../types';
+// import { NEOResponse } from '../types';
 
-const NASA_API_KEY = 'DEMO_KEY'; // Replace with your actual API key
+const NASA_API_KEY = 'nKLzcKNydwHSMQ4sIMvHQang1HKOhq3ieNqQR6y1';
 const NASA_API_URL = 'https://api.nasa.gov/neo/rest/v1/feed';
 
-export const fetchNEOs = async (startDate: string, endDate: string): Promise<NEOResponse> => {
+export const fetchNearEarthObjects = async (start_date: string, end_date: string): Promise<any> => {
     try {
         const response = await axios.get(NASA_API_URL, {
             params: {
-                start_date: startDate,
-                end_date: endDate,
+                start_date,
+                end_date,
                 api_key: NASA_API_KEY,
             },
         });

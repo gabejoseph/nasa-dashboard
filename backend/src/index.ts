@@ -1,18 +1,14 @@
-import fastify from 'fastify';
+import Fastify from 'fastify';
 import { setRoutes } from './routes/neo';
 
-const server = fastify({ logger: true });
+const app = Fastify();
 
-server.register(setRoutes);
+setRoutes(app);
 
-const start = async () => {
-  try {
-    await server.listen(3000);
-    console.log('Server is running at http://localhost:3000');
-  } catch (err) {
-    server.log.error(err);
+app.listen({ port: 3001 }, (err, address) => {
+  if (err) {
+    console.error(err);
     process.exit(1);
   }
-};
-
-start();
+  console.log(`Server listening at ${address}`);
+});
