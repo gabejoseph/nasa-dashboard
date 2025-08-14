@@ -1,6 +1,8 @@
 # NASA Dashboard
 
-Welcome to the NASA Dashboard project! This application is designed to display a list of the closest Near Earth Objects (NEOs) to Earth for any given date using data from the NASA API.
+Welcome to the NASA Dashboard project! This application displays a list of the closest Near Earth Objects (NEOs) to Earth for any given date using data from the NASA API.
+
+---
 
 ## Project Structure
 
@@ -8,12 +10,11 @@ The project is divided into two main parts: the backend and the frontend.
 
 ### Backend
 
-The backend is built using Fastify and TypeScript. It handles API requests and interacts with the NASA API to fetch data.
+The backend is built using Fastify and TypeScript. It handles API requests, fetches data from NASA's NeoWs API, transforms it to include size, closeness, and relative velocity, and caches results in-memory for performance.
 
 - **Entry Point**: `backend/src/index.ts`
-- **Controllers**: `backend/src/controllers/neo.ts`
-- **Routes**: `backend/src/routes/neo.ts`
-- **Services**: `backend/src/services/nasaApi.ts`
+- **Routes**: `backend/src/routes/neo.ts` (with caching and date validation)
+- **Services**: `backend/src/services/nasaApi.ts` (fetch & transform NASA data)
 - **Types**: `backend/src/types/index.ts`
 - **OpenAPI Schema**: `backend/openapi.yaml`
 - **Package Configuration**: `backend/package.json`
@@ -22,67 +23,109 @@ The backend is built using Fastify and TypeScript. It handles API requests and i
 
 ### Frontend
 
-The frontend is built using React with TypeScript. It provides a user interface for selecting dates and displaying NEO data.
+The frontend is built using React and TypeScript. Users can select a date and view a list of NEOs in a sortable table.
 
 - **Main Component**: `frontend/src/App.tsx`
 - **Components**: 
   - `frontend/src/components/DatePicker.tsx`
   - `frontend/src/components/NeoTable.tsx`
   - `frontend/src/components/SortControls.tsx`
-- **API Calls**: `frontend/src/api/neo.ts`
+- **API Calls**: `frontend/src/api/neo.ts` (calls backend `/api/neo` with dates)
 - **Types**: `frontend/src/types/index.ts`
 - **Package Configuration**: `frontend/package.json`
 - **TypeScript Configuration**: `frontend/tsconfig.json`
 - **Documentation**: `frontend/README.md`
 
-## Setup Instructions
+---
+
+## Features Implemented
+
+- Select a date using a date picker.
+- Fetch NEOs for the selected date from the backend API.
+- Display each object with:
+  - **Name**
+  - **Size (meters)**
+  - **Closeness to Earth (km)**
+  - **Relative Velocity (km/h)**
+- Sort the table by size, closeness, or velocity.
+- In-memory caching on the backend for 1 minute per date range.
+- Logs requests and cache usage in the backend.
+- Full TypeScript typing for safety.
+
+<details>
+<summary>Setup Instructions</summary>
 
 ### Prerequisites
 
-- Node.js (version 14 or higher)
-- npm (Node Package Manager)
+- Node.js 14+
+- npm
 
 ### Installation
 
 1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd nasa-dashboard
-   ```
 
-2. Install dependencies for the backend:
-   ```
-   cd backend
-   npm install
-   ```
+git clone <repository-url>
+cd nasa-dashboard
 
-3. Install dependencies for the frontend:
-   ```
-   cd ../frontend
-   npm install
-   ```
+2.  Install backend dependencies:
 
-### Running the Application
+cd backend
+npm install
 
-1. Start the backend server:
-   ```
-   cd backend
-   npm run start
-   ```
+3.  Install frontend dependencies:
 
-2. Start the frontend application:
-   ```
-   cd ../frontend
-   npm run start
-   ```
+cd ../frontend
+npm install
+Running the Application
 
-3. Open your browser and navigate to `http://localhost:3000` to view the application.
+4.  Start the backend server:
 
-## Additional Notes
+cd backend
+npm run start
 
-- The backend API uses the NASA API to fetch data about Near Earth Objects. You can use the demo key provided in the API documentation for testing.
-- The application includes features for sorting the displayed NEOs by size, closeness to Earth, and relative velocity.
+5.  Start the frontend application:
 
-## License
+cd ../frontend
+npm run start
+Open your browser at http://localhost:3000 to view the dashboard.
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+## GET /api/neo
+Fetch NEOs for a specific date range.
+
+Query Parameters:
+
+start_date (YYYY-MM-DD, required)
+
+end_date (YYYY-MM-DD, required)
+
+Response Example:
+
+json
+[
+  {
+    "id": "12345",
+    "name": "(2025 ME89)",
+    "size": 123.4,
+    "closeness": 456789.0,
+    "velocity": 12345.6
+  }
+]
+
+## Notes:
+
+Returns transformed NEO data with size, closeness, and velocity.
+
+Invalid or missing dates return 400 Bad Request.
+
+Caching reduces repeated API calls for the same date.
+
+Frontend updates table whenever the selected date changes.
+
+Sorting is done client-side.
+
+Backend handles caching, data transformation, and logging.
+
+NASA API key is set to DEMO_KEY for testing but can be replaced with a private key.
+
+License
+MIT License
